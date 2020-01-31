@@ -28,13 +28,62 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-function generateHint() {
-  // your code here
+function generateHint(guess) {
+  var guessArray = guess.split("");
+  var solutionArray = solution.split("");
+  let correctLetterLocations = 0;
+  let correctLetters = 0;
+  let targetIndex = 0;
+
+  for (let index = 0; index < solutionArray.length; index++) 
+  {
+    if (solutionArray[index] == guessArray[index])
+    {
+      correctLetterLocations += 1;
+      solutionArray[index] = null;
+    }
+  }  
+  
+  console.log(solutionArray + " " + guessArray + " Correct Pos & Letters " + correctLetterLocations)
+
+  for (let index in solutionArray) 
+  {
+    for (let test of guessArray)
+    {
+      if (solutionArray[index] == test)
+      {
+        targetIndex = index;
+        correctLetters += 1;
+        solutionArray[index] = null;
+      } 
+    } 
+  }
+  
+  console.log(solutionArray + " " + guessArray + " Correct Leters " + correctLetters)
+  // console.log(correctLetters + " " + solutionArray)
 }
+  // let i = 0;
+  // solutionArray.forEach(s => 
+  // {
+  //   if (guessArray.indexOf(s) != -1)
+  //   {
+  //     correctLetters += 1;
+  //     targetIndex = i;
+  //     solutionArray[s] = null;
+  //     i ++;
+  //   }
+  // });
+
+
 
 function mastermind(guess) {
   solution = 'abcd'; // Comment this out to generate a random solution
   // your code here
+  if (guess == solution){
+    return console.log('You guessed it!');
+  } else {
+    generateHint(guess);
+  }
 }
 
 

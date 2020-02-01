@@ -10,6 +10,8 @@ const rl = readline.createInterface({
 let board = [];
 let solution = '';
 let letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+var x = 0;
+var result;
 
 function printBoard() {
   for (let i = 0; i < board.length; i++) {
@@ -34,8 +36,10 @@ function generateHint(guess) {
   let correctLetterLocations = 0;
   let correctLetters = 0;
   let targetIndex = 0;
+  var x = 0;
 
-  for (let index = 0; index < solutionArray.length; index++) 
+  // Loop the INDEX's of the solution and IF conditional to count == values in both arrays to determine correct value and correct posistion.
+  for (let index in solutionArray) 
   {
     if (solutionArray[index] == guessArray[index])
     {
@@ -43,37 +47,22 @@ function generateHint(guess) {
       solutionArray[index] = null;
     }
   }  
-  
-  console.log(solutionArray + " " + guessArray + " Correct Pos & Letters " + correctLetterLocations)
 
-  for (let index in solutionArray) 
+  // Loop values of Guess and IF conditional indexOf solution to count correct letter in any posistion.
+  for (let test of guessArray)
   {
-    for (let test of guessArray)
+    if (solutionArray.indexOf(test) > -1)
     {
-      if (solutionArray[index] == test)
-      {
-        targetIndex = index;
-        correctLetters += 1;
-        solutionArray[index] = null;
-      } 
+      targetIndex = solutionArray.indexOf(test);
+      correctLetters += 1;
+      solutionArray[targetIndex] = null;
     } 
-  }
-  
-  console.log(solutionArray + " " + guessArray + " Correct Leters " + correctLetters)
-  // console.log(correctLetters + " " + solutionArray)
+  } 
+  // Set counts to string and return
+  result = correctLetterLocations + "-" + correctLetters;
+  board.push(guess + " " + result)
+  return console.log(result)
 }
-  // let i = 0;
-  // solutionArray.forEach(s => 
-  // {
-  //   if (guessArray.indexOf(s) != -1)
-  //   {
-  //     correctLetters += 1;
-  //     targetIndex = i;
-  //     solutionArray[s] = null;
-  //     i ++;
-  //   }
-  // });
-
 
 
 function mastermind(guess) {
@@ -81,6 +70,8 @@ function mastermind(guess) {
   // your code here
   if (guess == solution){
     return console.log('You guessed it!');
+  } else if (board.length == 10) {
+    return console.log('You ran out of turns! The solution was ' + solution);
   } else {
     generateHint(guess);
   }
